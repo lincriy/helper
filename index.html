@@ -11,12 +11,15 @@
         }
         .configure {
             border: 5px solid black;
-            padding: 0 20px 20px 20px;
+            padding: 0 40px 20px 20px;
+            width: 1100px;
+            margin: 0 auto;
             margin-bottom: 10px;
         }
         .configure label {
             border: 3px dashed skyblue;
             padding: 10px;   
+            
         }
         .content {
             display: flex;
@@ -34,7 +37,10 @@
             display: block;
             width: 100%;
             text-align: center;
-            
+        }
+        input {
+            width: 30px;
+            margin-right: 5px;
         }
     </style>
     
@@ -55,7 +61,7 @@
         <h2>显示设置：</h2>
         <label>
             点我选择含有图片文件夹上传
-            <input type="file" id="fileInput" webkitdirectory directory multiple>
+            <input type="file" id="fileInput" webkitdirectory directory multiple style="width:auto;">
         </label><br>
         <div class="content">
         <label>
