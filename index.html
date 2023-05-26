@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            width: 100%;
+        }
+        .configure {
+            border: 5px solid black;
+            padding: 0 20px 20px 20px;
+            margin-bottom: 10px;
+        }
+        .configure label {
+            border: 3px dashed skyblue;
+            padding: 10px;   
+        }
+        .content {
+            display: flex;
+            justify-content: space-between;
+        }
+        em {
+            font-size: 30px;
+        }
+        .help {
+            border: 1px solid orangered;
+            margin: 10px auto;
+            width: 1000px;
+        }
+        .configure>label {
+            display: block;
+            width: 100%;
+            text-align: center;
+            
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="help">
+        <h3 style="text-align: center;margin:0;">帮助</h1>
+        <ol>
+            <li>上传含有图片的文件夹</li>
+            <li>指定列数或列宽，都指定以单行至少原则显示，不指定填0。调整后点击确认按钮</li>
+            <li>在页面上右键单击并选择“检查”，或按Ctrl + Shift + I（Mac上为Cmd + Option + I）或按F12打开Chrome DevTools。</li>
+            <li>在“元素”面板中，通过浏览HTML树或使用“选择元素”工具来查找并选择图片墙元素。</li>
+            <li>在“元素”面板中右键单击所选元素，然后从右键菜单中选择“捕获节点屏幕截图”。</li>
+            <li>这将捕获所选元素的屏幕截图并将其保存到您的默认下载文件夹中。</li>
+        </ol>
+    </div>
+    <div class="configure">
+        <h2>显示设置：</h2>
+        <label>
+            点我选择含有图片文件夹上传
+            <input type="file" id="fileInput" webkitdirectory directory multiple>
+        </label><br>
+        <div class="content">
+        <label>
+            指定列数：每列图像个数：
+            <input type="number" min="0" value="3" id="numbered">个
+        </label><em>或</em>
+        <label>
+            指定列宽：每个图像宽度(单位像素)：
+            <input type="number" min="0" value="200" id="pxed">px
+        </label><em>和</em>
+        <label>
+            指定列间距：每一列的间距：
+            <input type="number" min="0" value="0" id="columnpxed">px
+        </label>
+        </div><br>
+        <label>
+            点击应用更改 
+            <button style="width: 15%;" id="change">点我修改属性</button>
+        </label>
+        
+    </div>
+    
+    <div class="bgWall" id="bgWall"></div>
+    <script>
+        let bgWall = document.getElementById("bgWall");
+        let fileInput = document.getElementById('fileInput');
+        let numbered = document.getElementById("numbered");
+        let pxed = document.getElementById("pxed");
+        let columnpxed = document.getElementById("columnpxed");
+        let change = document.getElementById("change");
+        let files = null;
+        fileInput.addEventListener('change', function(event) {
+            bgWall.style.columnCount = numbered.value ? numbered.value : '';
+            bgWall.style.columnWidth = pxed.value ? pxed.value : '';
+            bgWall.style.columnGap = columnpxed.value;
+            files = event.target.files;
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].type.startsWith('image/')) {
+                    var img = document.createElement('img');
+                    img.src = URL.createObjectURL(files[i]);
+                    bgWall.appendChild(img);
+                }
+            }
+            
+            fileInput.style.display = "none";
+        });
+        change.addEventListener('click', function(event) {
+            bgWall.style.columnCount = numbered.value ? numbered.value : '';
+            bgWall.style.columnWidth = pxed.value ? pxed.value + "px" : '';
+            bgWall.style.columnGap = columnpxed.value + "px";
+            bgWall.innerHTML = '';
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].type.startsWith('image/')) {
+                    var img = document.createElement('img');
+                    img.src = URL.createObjectURL(files[i]);
+                    bgWall.appendChild(img);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
